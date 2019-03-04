@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import {BrowserRouter} from 'react-router-dom';
 import {Switch, Route} from 'react-router';
-
-//import TourneyView from './TourneyView.js';
 import Home from './Home.js';
-import ReadyGames from './ReadyGames.js';
+import Games from './Games.js';
 
 class App extends Component {
   render() {
@@ -13,7 +11,7 @@ class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={Home}/>
-            <Route exact path="/ready" component={ReadyGames}/>
+            <Route exact path="/games" component={Games}/>
           </Switch>
         </BrowserRouter>  
       </div>

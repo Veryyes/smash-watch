@@ -11,6 +11,7 @@ CORS(app)
 api_key = "API KEY NOT SET"
 with open("api_key", "r") as file:
     api_key = file.read()
+subdomain = "gmusmash"
 
 root_url = "https://api.challonge.com/v1/"
 
@@ -25,7 +26,7 @@ def index():
 
 @app.route("/tournaments")
 def get_tournaments():
-    params= {"api_key":api_key, "state":"all", "subdomain":"gmusmash"}
+    params = {"api_key":api_key, "state":"in_progress", "subdomain":subdomain}
     r = requests.get("{}/tournaments.json".format(root_url), params=params)
     tourneys = []
     for t in json.loads(r.text):
@@ -34,7 +35,17 @@ def get_tournaments():
             "url": t["tournament"]["url"],
             "game_img": get_game_img(t["tournament"]["game_name"])
         })
-    return str(json.dumps(tourneys[:5]))
+    return str(json.dumps(tourneys))
+
+@app.route("/matches")
+def get_bracket_info():
+    tourney = request.args.get('tourney')
+    if(tourney != None):
+        params = {"api_key": api_key, "state": "open"}
+        r = requests.get("{}/tournaments/{}-{}/matches.json".format(root_url, subdomain, tourney), params=params)
+        return json.dumps(r.text)
+    else:
+        return "[]"
 
 def get_game_img(game_name):
     if game_name == "Super Smash Bros.":

@@ -10,7 +10,7 @@ class Home extends Component{
         this.state = {
             slide_data: [],
         }
-        fetch("http://192.168.1.78:5000/tournaments").then(
+        fetch("http://localhost:5000/tournaments").then(
             (res) => {
                 return res.json()
             }
@@ -24,6 +24,10 @@ class Home extends Component{
                 this.render();
             }
         )
+    }
+
+    OnSelect(tourney){
+        console.log(tourney)
     }
 
     render(){
@@ -40,7 +44,7 @@ class Home extends Component{
                     <div key={idx} className="carousel-slide">
                         <h5>{slide.name}</h5>
                         <img src={slide.game_img} alt={""}/><br/>
-                        <Button className={"red darken-3"} >Select</Button>
+                        <Button className={"red darken-3"} onClick={this.OnSelect.bind(this, slide.url)}>Select</Button>
                     </div>
                 )
             });
